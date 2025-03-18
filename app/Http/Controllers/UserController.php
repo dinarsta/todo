@@ -18,16 +18,19 @@ class UserController extends Controller
     // Proses login
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('dashboard');
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->route('tasks.index'); // Langsung ke halaman daftar tugas
         }
 
-        return back()->withErrors(['email' => 'Email atau password salah']);
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ]);
     }
 
     // Tampilkan form registrasi
@@ -60,14 +63,5 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect()->route('login');
-    }
-
-    // Dashboard berdasarkan role
-    public function dashboard()
-    {
-        if (Auth::user()->role === 'admin') {
-            return view('admin.dashboard');
-        }
-        return view('user.dashboard');
     }
 }
