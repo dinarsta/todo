@@ -70,7 +70,7 @@ class TaskController extends Controller
             'status' => 'required|in:Baru,Proses,Pending,Selesai',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'lampiran' => 'nullable|file|mimes:pdf,jpg,png,docx|max:2048',
+            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx',
         ]);
 
         $data = $request->all();

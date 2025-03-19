@@ -1,5 +1,5 @@
-
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,10 +16,10 @@
 
     <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Tambah Task</a>
 
-    <table class="table table-bordered">
-        <thead class="table-dark">
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark text-center">
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Judul Task</th>
                 <th>Deskripsi</th>
                 <th>Prioritas</th>
@@ -33,22 +33,22 @@
         <tbody>
             @foreach($tasks as $task)
             <tr>
-                <td>{{ $task->id }}</td>
+                <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $task->judul_task }}</td>
                 <td>{{ $task->deskripsi }}</td>
-                <td>{{ $task->prioritas }}</td>
+                <td class="text-center">{{ $task->prioritas }}</td>
                 <td>{{ $task->user->name ?? 'Tidak Diketahui' }}</td>
-                <td>{{ $task->status }}</td>
-                <td>{{ $task->tanggal_mulai }}</td>
-                <td>{{ $task->tanggal_selesai }}</td>
-                <td>
+                <td class="text-center">{{ $task->status }}</td>
+                <td class="text-center">{{ date('d-m-Y', strtotime($task->tanggal_mulai)) }}</td>
+                <td class="text-center" data-date="{{ date('Y-m-d', strtotime($task->tanggal_selesai)) }}">
+                    {{ date('d-m-Y', strtotime($task->tanggal_selesai)) }}
+                </td>
+                <td class="text-center">
                     <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Edit</a>
-
                     <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $task->id }}">Hapus</button>
+                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-success btn-sm">Show</a>
                 </td>
             </tr>
-
-
 
             <!-- Modal Hapus -->
             <div class="modal fade" id="deleteModal{{ $task->id }}" tabindex="-1">
@@ -75,6 +75,31 @@
             @endforeach
         </tbody>
     </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const rows = document.querySelectorAll("tbody tr");
+
+            rows.forEach(row => {
+                const tanggalSelesaiElement = row.children[7]; // Kolom tanggal selesai
+                const tanggalSelesaiText = tanggalSelesaiElement ? tanggalSelesaiElement.getAttribute("data-date") : null;
+
+                if (tanggalSelesaiText) {
+                    const deadline = new Date(tanggalSelesaiText + "T00:00:00"); // Format tanggal yang benar
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const threeDaysLater = new Date(today);
+                    threeDaysLater.setDate(today.getDate() + 3);
+
+                    console.log(`Deadline: ${deadline}, Today: ${today}, Three Days Later: ${threeDaysLater}`); // Debugging
+
+                    if (deadline <= threeDaysLater && deadline >= today) {
+                        row.classList.add("table-danger"); // Memberikan warna merah
+                    }
+                }
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
