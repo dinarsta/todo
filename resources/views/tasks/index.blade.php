@@ -6,18 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Daftar Task</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .btn-sm i {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body class="container mt-4">
-    <h1 class="mb-4">Daftar Task</h1>
+    <h1 class="mb-4 text-center text-primary">Daftar Task</h1>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Tambah Task</a>
+    <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3"><i class="fa fa-plus"></i> Tambah Task</a>
 
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark text-center">
+    <table class="table table-bordered table-striped table-hover text-center">
+        <thead class="table-dark">
             <tr>
                 <th>No</th>
                 <th>Judul Task</th>
@@ -33,20 +45,22 @@
         <tbody>
             @foreach($tasks as $task)
             <tr>
-                <td class="text-center">{{ $loop->iteration }}</td>
+                <td>{{ $loop->iteration }}</td>
                 <td>{{ $task->judul_task }}</td>
                 <td>{{ $task->deskripsi }}</td>
-                <td class="text-center">{{ $task->prioritas }}</td>
+                <td>{{ $task->prioritas }}</td>
                 <td>{{ $task->user->name ?? 'Tidak Diketahui' }}</td>
-                <td class="text-center">{{ $task->status }}</td>
-                <td class="text-center">{{ date('d-m-Y', strtotime($task->tanggal_mulai)) }}</td>
-                <td class="text-center" data-date="{{ date('Y-m-d', strtotime($task->tanggal_selesai)) }}">
+                <td>{{ $task->status }}</td>
+                <td>{{ date('d-m-Y', strtotime($task->tanggal_mulai)) }}</td>
+                <td data-date="{{ date('Y-m-d', strtotime($task->tanggal_selesai)) }}">
                     {{ date('d-m-Y', strtotime($task->tanggal_selesai)) }}
                 </td>
-                <td class="text-center">
-                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $task->id }}">Hapus</button>
-                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-success btn-sm">Show</a>
+                <td>
+                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $task->id }}">
+                        <i class="fa fa-trash"></i> Hapus
+                    </button>
+                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-success btn-sm"><i class="fa fa-eye"></i> Show</a>
                 </td>
             </tr>
 
@@ -78,23 +92,17 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const rows = document.querySelectorAll("tbody tr");
-
-            rows.forEach(row => {
-                const tanggalSelesaiElement = row.children[7]; // Kolom tanggal selesai
-                const tanggalSelesaiText = tanggalSelesaiElement ? tanggalSelesaiElement.getAttribute("data-date") : null;
-
-                if (tanggalSelesaiText) {
-                    const deadline = new Date(tanggalSelesaiText + "T00:00:00"); // Format tanggal yang benar
+            document.querySelectorAll("tbody tr").forEach(row => {
+                const deadlineElement = row.children[7];
+                if (deadlineElement) {
+                    const deadline = new Date(deadlineElement.getAttribute("data-date"));
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     const threeDaysLater = new Date(today);
                     threeDaysLater.setDate(today.getDate() + 3);
 
-                    console.log(`Deadline: ${deadline}, Today: ${today}, Three Days Later: ${threeDaysLater}`); // Debugging
-
                     if (deadline <= threeDaysLater && deadline >= today) {
-                        row.classList.add("table-danger"); // Memberikan warna merah
+                        row.classList.add("table-danger");
                     }
                 }
             });
