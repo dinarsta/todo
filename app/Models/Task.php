@@ -11,7 +11,7 @@ class Task extends Model
 
     protected $fillable = [
         'judul_task', 'deskripsi', 'prioritas', 'user_id', 'status',
-        'tanggal_mulai', 'tanggal_selesai', 'lampiran'
+        'tanggal_mulai', 'tanggal_selesai', 'lampiran', 'dikerjakan_oleh'
     ];
 
     // Relasi ke User
