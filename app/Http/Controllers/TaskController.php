@@ -27,12 +27,11 @@ class TaskController extends Controller
         $request->validate([
             'judul_task' => 'required|max:255',
             'deskripsi' => 'required',
-            'prioritas' => 'required|in:Rendah,Sedang,Tinggi',
             'dikerjakan_oleh' => 'required|integer|exists:users,id',
             'status' => 'required|in:Baru,Proses,Pending,Selesai',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'lampiran' => 'nullable|file|mimes:pdf,jpg,png,docx|max:2048',
+            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx',
         ]);
 
         $data = $request->all();
@@ -66,7 +65,6 @@ class TaskController extends Controller
         $request->validate([
             'judul_task' => 'required|max:255',
             'deskripsi' => 'required',
-            'prioritas' => 'required|in:Rendah,Sedang,Tinggi',
             'dikerjakan_oleh' => 'required|integer|exists:users,id',
             'status' => 'required|in:Baru,Proses,Pending,Selesai',
             'tanggal_mulai' => 'required|date',
@@ -84,10 +82,31 @@ class TaskController extends Controller
             $data['lampiran'] = str_replace('public/', 'storage/', $path);
         }
 
+        // Jika status diubah menjadi "Selesai", pindahkan ke deleted_tasks
+        if ($data['status'] === 'Selesai') {
+            DB::table('deleted_tasks')->insert([
+                'id' => $task->id,
+                'judul_task' => $task->judul_task,
+                'deskripsi' => $task->deskripsi,
+                'dikerjakan_oleh' => $task->dikerjakan_oleh,
+                'status' => $task->status,
+                'tanggal_mulai' => $task->tanggal_mulai,
+                'tanggal_selesai' => $task->tanggal_selesai,
+                'lampiran' => $task->lampiran,
+                'deleted_at' => now(),
+            ]);
+
+            // Hapus dari tabel tasks
+            $task->delete();
+
+            return redirect()->route('tasks.index')->with('success', 'Task selesai dan dipindahkan ke arsip.');
+        }
+
         $task->update($data);
 
         return redirect()->route('tasks.index')->with('success', 'Task berhasil diperbarui.');
     }
+
 
     public function destroy($id)
     {
@@ -98,7 +117,6 @@ class TaskController extends Controller
             'id' => $task->id,
             'judul_task' => $task->judul_task,
             'deskripsi' => $task->deskripsi,
-            'prioritas' => $task->prioritas,
             'dikerjakan_oleh' => $task->dikerjakan_oleh,
             'status' => $task->status,
             'tanggal_mulai' => $task->tanggal_mulai,

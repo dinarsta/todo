@@ -34,11 +34,10 @@
                 <th>No</th>
                 <th>Judul Task</th>
                 <th>Deskripsi</th>
-                <th>Prioritas</th>
-                <th>Dikerjakan Oleh</th>
+                <th>Diinput Oleh</th>
                 <th>Status</th>
-                <th>Tanggal Mulai</th>
-                <th>Tanggal Selesai</th>
+                <th>Tanggal Input</th>
+                <th>Target Selesai</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -48,7 +47,6 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $task->judul_task }}</td>
                 <td>{{ $task->deskripsi }}</td>
-                <td>{{ $task->prioritas }}</td>
                 <td>{{ $task->user->name ?? 'Tidak Diketahui' }}</td>
                 <td>{{ $task->status }}</td>
                 <td>{{ date('d-m-Y', strtotime($task->tanggal_mulai)) }}</td>
@@ -90,24 +88,39 @@
         </tbody>
     </table>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll("tbody tr").forEach(row => {
-                const deadlineElement = row.children[7];
-                if (deadlineElement) {
-                    const deadline = new Date(deadlineElement.getAttribute("data-date"));
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0);
-                    const threeDaysLater = new Date(today);
-                    threeDaysLater.setDate(today.getDate() + 3);
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("tbody tr").forEach(row => {
+        const deadlineElement = row.children[6]; // Kolom Target Selesai
+        if (deadlineElement) {
+            const deadline = new Date(deadlineElement.getAttribute("data-date"));
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const threeDaysLater = new Date(today);
+            threeDaysLater.setDate(today.getDate() + 3);
 
-                    if (deadline <= threeDaysLater && deadline >= today) {
-                        row.classList.add("table-danger");
-                    }
-                }
-            });
+            if (deadline <= threeDaysLater && deadline >= today) {
+                row.classList.add("table-danger");
+            }
+        }
+
+        // Tambahkan efek hover menggunakan JavaScript
+        row.addEventListener("mouseover", function () {
+            row.style.backgroundColor = "rgba(255, 0, 0, 0.7)"; // Warna merah lebih gelap saat hover
         });
-    </script>
+
+        row.addEventListener("mouseout", function () {
+            // Jika memiliki class "table-danger", kembalikan ke warna merah default
+            if (row.classList.contains("table-danger")) {
+                row.style.backgroundColor = "";
+            } else {
+                row.style.backgroundColor = ""; // Reset ke warna awal jika bukan deadline dekat
+            }
+        });
+    });
+});
+
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -22,18 +22,17 @@
             <p><strong>ID:</strong> {{ $task->id }}</p>
             <p><strong>Judul Task:</strong> {{ $task->judul_task }}</p>
             <p><strong>Deskripsi:</strong> {{ $task->deskripsi }}</p>
-            <p><strong>Prioritas:</strong> {{ $task->prioritas }}</p>
-            <p><strong>Dikerjakan Oleh:</strong> {{ $task->user->name ?? 'Tidak ada' }}</p>
+            <p><strong>DiInput Oleh:</strong> {{ $task->user->name ?? 'Tidak ada' }}</p>
             <p><strong>Status:</strong> {{ $task->status }}</p>
-            <p><strong>Tanggal Mulai:</strong> {{ $task->tanggal_mulai ? date('d-m-Y', strtotime($task->tanggal_mulai)) : '-' }}</p>
-            <p><strong>Tanggal Selesai:</strong> {{ $task->tanggal_selesai ? date('d-m-Y', strtotime($task->tanggal_selesai)) : '-' }}</p>
+            <p><strong>Tanggal Input:</strong> {{ $task->tanggal_mulai ? date('d-m-Y', strtotime($task->tanggal_mulai)) : '-' }}</p>
+            <p><strong>Target Selesai:</strong> {{ $task->tanggal_selesai ? date('d-m-Y', strtotime($task->tanggal_selesai)) : '-' }}</p>
 
             @if($task->lampiran)
             @php
                 $extension = pathinfo($task->lampiran, PATHINFO_EXTENSION);
                 $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
                 $documentExtensions = ['pdf', 'docx', 'xlsx', 'pptx'];
-                $fileUrl = asset('storage/lampiran/' . basename($task->lampiran));
+                $fileUrl = asset($task->lampiran); // File berada di storage/lampiran/
             @endphp
 
             <div class="text-center mt-3">
@@ -47,7 +46,9 @@
                     <p>Format file tidak didukung. <a href="{{ $fileUrl }}" class="btn btn-secondary">Unduh Lampiran</a></p>
                 @endif
             </div>
-            @endif
+        @endif
+
+
 
             <div class="text-center mt-4">
                 <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Kembali ke Daftar Task</a>

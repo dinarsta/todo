@@ -44,16 +44,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Prioritas:</label>
-                    <select name="prioritas" class="form-select" required>
-                        <option value="Rendah" {{ old('prioritas') == 'Rendah' ? 'selected' : '' }}>Rendah</option>
-                        <option value="Sedang" {{ old('prioritas') == 'Sedang' ? 'selected' : '' }}>Sedang</option>
-                        <option value="Tinggi" {{ old('prioritas') == 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Dikerjakan Oleh:</label>
+                    <label class="form-label">Diinput Oleh:</label>
                     <select name="dikerjakan_oleh" class="form-select">
                         <option value="">-- Pilih User --</option>
                         @foreach($users as $user)
@@ -76,7 +67,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Tanggal Mulai:</label>
-                    <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai') }}" class="form-control">
+                    <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', date('Y-m-d')) }}" class="form-control">
                 </div>
 
                 <div class="mb-3">
@@ -86,11 +77,12 @@
 
                 <div class="mb-3">
                     <label class="form-label">Lampiran:</label>
-                    <input type="file" name="lampiran" class="form-control">
+                    <input type="file" name="lampiran" class="form-control" accept="image/*" capture="environment">
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100">Simpan Task</button>
             </form>
+
         </div>
     </div>
 

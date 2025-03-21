@@ -6,7 +6,7 @@ use App\Http\Controllers\TaskController;
 
 // Halaman utama
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Authentication Routes
@@ -17,6 +17,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [UserController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [UserController::class, 'register'])->name('register.post');
 });
+
 
 // Logout hanya bisa diakses oleh user yang sudah login
 Route::post('/logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');

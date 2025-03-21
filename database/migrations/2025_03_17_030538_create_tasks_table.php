@@ -15,7 +15,6 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('judul_task', 255);
             $table->text('deskripsi');
-            $table->enum('prioritas', ['Rendah', 'Sedang', 'Tinggi'])->default('Sedang');
             $table->unsignedBigInteger('dikerjakan_oleh');
             $table->foreign('dikerjakan_oleh')->references('id')->on('users')->onDelete('cascade');
             $table->enum('status', ['Baru', 'Proses', 'Pending', 'Selesai'])->default('Baru');

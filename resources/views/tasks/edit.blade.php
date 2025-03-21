@@ -45,16 +45,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Prioritas:</label>
-                    <select name="prioritas" class="form-select" required>
-                        <option value="Rendah" {{ old('prioritas', $task->prioritas) == 'Rendah' ? 'selected' : '' }}>Rendah</option>
-                        <option value="Sedang" {{ old('prioritas', $task->prioritas) == 'Sedang' ? 'selected' : '' }}>Sedang</option>
-                        <option value="Tinggi" {{ old('prioritas', $task->prioritas) == 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Dikerjakan Oleh:</label>
+                    <label class="form-label">Diinput Oleh:</label>
                     <select name="dikerjakan_oleh" class="form-select">
                         <option value="">-- Pilih User --</option>
                         @foreach($users as $user)
@@ -76,12 +67,12 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Tanggal Mulai:</label>
+                    <label class="form-label">Tanggal Input:</label>
                     <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', $task->tanggal_mulai ? date('Y-m-d', strtotime($task->tanggal_mulai)) : '') }}" class="form-control">
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Tanggal Selesai:</label>
+                    <label class="form-label">Target Selesai:</label>
                     <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai', $task->tanggal_selesai ? date('Y-m-d', strtotime($task->tanggal_selesai)) : '') }}" class="form-control">
                 </div>
 
