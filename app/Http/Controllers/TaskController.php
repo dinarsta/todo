@@ -31,14 +31,16 @@ class TaskController extends Controller
             'status' => 'required|in:Baru,Proses,Pending,Selesai',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx',
+            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
         ]);
 
         $data = $request->all();
 
         if ($request->hasFile('lampiran')) {
-            $path = $request->file('lampiran')->store('public/lampiran');
-            $data['lampiran'] = str_replace('public/', 'storage/', $path);
+            $file = $request->file('lampiran');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('lampiran', $filename, 'public');
+            $data['lampiran'] = $path;
         }
 
         Task::create($data);
@@ -69,20 +71,23 @@ class TaskController extends Controller
             'status' => 'required|in:Baru,Proses,Pending,Selesai',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx',
+            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png,docx|max:2048',
         ]);
 
         $data = $request->all();
 
         if ($request->hasFile('lampiran')) {
-            if ($task->lampiran && Storage::exists(str_replace('storage/', 'public/', $task->lampiran))) {
-                Storage::delete(str_replace('storage/', 'public/', $task->lampiran));
+            // Hapus file lama jika ada
+            if ($task->lampiran && Storage::disk('public')->exists($task->lampiran)) {
+                Storage::disk('public')->delete($task->lampiran);
             }
-            $path = $request->file('lampiran')->store('public/lampiran');
-            $data['lampiran'] = str_replace('public/', 'storage/', $path);
+
+            $file = $request->file('lampiran');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('lampiran', $filename, 'public');
+            $data['lampiran'] = $path;
         }
 
-        // Jika status diubah menjadi "Selesai", pindahkan ke deleted_tasks
         if ($data['status'] === 'Selesai') {
             DB::table('deleted_tasks')->insert([
                 'id' => $task->id,
@@ -96,7 +101,6 @@ class TaskController extends Controller
                 'deleted_at' => now(),
             ]);
 
-            // Hapus dari tabel tasks
             $task->delete();
 
             return redirect()->route('tasks.index')->with('success', 'Task selesai dan dipindahkan ke arsip.');
@@ -107,12 +111,10 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task berhasil diperbarui.');
     }
 
-
     public function destroy($id)
     {
         $task = Task::findOrFail($id);
 
-        // Simpan data ke tabel deleted_tasks sebelum dihapus
         DB::table('deleted_tasks')->insert([
             'id' => $task->id,
             'judul_task' => $task->judul_task,
@@ -125,12 +127,10 @@ class TaskController extends Controller
             'deleted_at' => now(),
         ]);
 
-        // Hapus lampiran jika ada
-        if ($task->lampiran && Storage::exists(str_replace('storage/', 'public/', $task->lampiran))) {
-            Storage::delete(str_replace('storage/', 'public/', $task->lampiran));
+        if ($task->lampiran && Storage::disk('public')->exists($task->lampiran)) {
+            Storage::disk('public')->delete($task->lampiran);
         }
 
-        // Hapus task dari database
         $task->delete();
 
         return redirect()->route('tasks.index')->with('success', 'Task berhasil dihapus dan dipindahkan ke arsip.');
