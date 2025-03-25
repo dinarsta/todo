@@ -6,14 +6,32 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
-        return view('tasks.index', compact('tasks'));
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {
+            return $this->adminDashboard();
+        } else {
+            return $this->userDashboard();
+        }
+    }
+
+    private function adminDashboard()
+    {
+        $tasks = Task::all(); // Admin bisa melihat semua task
+        return view('admin.dashboard', compact('tasks'));
+    }
+
+    private function userDashboard()
+    {
+        $tasks = Task::where('dikerjakan_oleh', Auth::id())->get(); // User hanya melihat task miliknya
+        return view('user.dashboard', compact('tasks'));
     }
 
     public function create()
