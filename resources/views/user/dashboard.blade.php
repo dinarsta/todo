@@ -8,10 +8,6 @@
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
-<a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">
-    <i class="fa fa-plus"></i>
-</a>
-
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover text-center" style="background-color: #f8f9fa;">
         <thead style="background-color: #007bff; color: white;">
@@ -23,7 +19,6 @@
                 <th>Status</th>
                 <th>Tanggal Input</th>
                 <th>Target Selesai</th>
-                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -36,17 +31,7 @@
                 <td>{{ $task->status }}</td>
                 <td>{{ date('d-m-Y', strtotime($task->tanggal_mulai)) }}</td>
                 <td>{{ date('d-m-Y', strtotime($task->tanggal_selesai)) }}</td>
-                <td>
-                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $task->id }}">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-success btn-sm">
-                        <i class="fa fa-eye"></i>
-                    </a>
-                </td>
+
             </tr>
 
             <!-- Modal Hapus -->

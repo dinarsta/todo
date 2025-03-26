@@ -51,15 +51,12 @@
                     </select>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Tanggal Mulai:</label>
-                        <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', date('Y-m-d')) }}" class="form-control rounded-3">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Tanggal Selesai:</label>
-                        <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" class="form-control rounded-3">
-                    </div>
+                <!-- Input Hidden untuk Tanggal Mulai -->
+                <input type="hidden" name="tanggal_mulai" value="{{ old('tanggal_mulai', date('Y-m-d')) }}">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tanggal Selesai:</label>
+                    <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai') }}" class="form-control rounded-3">
                 </div>
 
                 <div class="mb-3">

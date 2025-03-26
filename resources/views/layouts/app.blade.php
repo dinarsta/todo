@@ -12,12 +12,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-bg: #F0F0F3;
+            --primary-bg: #F8F9FA;
             --secondary-bg: #FFFFFF;
             --accent-color: #DC5F00;
             --text-color: #373A40;
             --sidebar-hover: #FF7F50;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.08);
         }
 
         body {
@@ -29,9 +29,9 @@
         /* Navbar */
         .navbar {
             background-color: var(--secondary-bg);
-            border-bottom: 4px solid var(--accent-color);
-            padding: 12px 20px;
-            box-shadow: 0 4px 8px var(--shadow-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding: 14px 20px;
+            box-shadow: 0 3px 8px var(--shadow-color);
         }
 
         .navbar-brand img {
@@ -40,54 +40,61 @@
 
         .btn-outline-secondary {
             border-radius: 8px;
-            padding: 8px 12px;
-            transition: background 0.3s, transform 0.2s;
+            padding: 10px 14px;
+            transition: background 0.3s ease-in-out, transform 0.2s;
         }
         .btn-outline-secondary:hover {
             background: var(--accent-color);
             color: #FFF;
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         /* Sidebar */
         .sidebar {
             background-color: var(--secondary-bg);
             color: var(--text-color);
-            padding: 20px;
+            padding: 22px;
             height: 100vh;
-            border-right: 4px solid var(--accent-color);
-            box-shadow: 2px 0 8px var(--shadow-color);
+            border-right: 3px solid var(--accent-color);
+            box-shadow: 2px 0 10px var(--shadow-color);
         }
 
         .sidebar a {
             color: var(--text-color);
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             text-decoration: none;
-            transition: 0.3s;
+            transition: all 0.3s ease-in-out;
             font-weight: 500;
+            font-size: 1.1rem;
         }
 
         .sidebar a i {
-            width: 20px;
+            width: 24px;
             text-align: center;
+            font-size: 1.2rem;
         }
 
         .sidebar a:hover {
             background-color: var(--sidebar-hover);
             color: #FFF;
-            transform: scale(1.05);
+            transform: translateX(5px);
         }
 
         /* Footer */
         footer {
             background-color: var(--secondary-bg);
-            border-top: 4px solid var(--accent-color);
-            padding: 12px 0;
+            border-top: 3px solid var(--accent-color);
+            padding: 14px 0;
             font-size: 14px;
             color: var(--text-color);
+        }
+
+        /* Main Content */
+        main {
+            padding: 30px;
         }
 
         @media (max-width: 768px) {
@@ -129,7 +136,6 @@
     <div class="offcanvas-body">
         <a href="{{ route('dashboard') }}"><i class="fa-solid fa-gauge-high me-2"></i>Dashboard</a>
         <a href="{{ route('tasks.index') }}"><i class="fa-solid fa-list-check me-2"></i>Task</a>
-        {{-- <a href="#"><i class="fa-solid fa-cogs me-2"></i>Pengaturan</a> --}}
         <form action="{{ route('logout') }}" method="POST" class="mt-3">
             @csrf
             <button type="submit" class="btn btn-outline-danger w-100">Logout</button>
@@ -138,7 +144,7 @@
 </div>
 
 <!-- Main Content -->
-<main class="p-4">
+<main>
     @yield('content')
 </main>
 
