@@ -15,10 +15,16 @@ class TaskController extends Controller
     {
         $user = Auth::user();
 
+        // Ambil semua tasks
+        $tasks = Task::all();
+
+        // Ambil semua pengguna
+        $users = User::all();
+
         if ($user->role === 'admin') {
-            return $this->adminDashboard();
+            return view('admin.dashboard', compact('tasks', 'users'));
         } else {
-            return $this->userDashboard();
+            return view('user.dashboard', compact('tasks', 'users'));
         }
     }
 

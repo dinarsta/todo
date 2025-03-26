@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4 col-8">
-    <div class="shadow-box">
-        <h1 class="mb-4 text-center">Edit Task</h1>
+<div class="container mt-5 col-md-8">
+    <div class="card shadow-lg p-4">
+        <h2 class="mb-4 text-center fw-bold">Edit Task</h2>
 
         @if($errors->any())
             <div class="alert alert-danger">
@@ -15,23 +15,23 @@
             </div>
         @endif
 
-        <form action="{{ route('tasks.update', $task->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('tasks.update', $task->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="mb-3">
-                <label class="form-label">Judul Task:</label>
-                <input type="text" name="judul_task" value="{{ old('judul_task', $task->judul_task) }}" class="form-control" required>
+                <label class="form-label fw-semibold">Judul Task:</label>
+                <input type="text" name="judul_task" value="{{ old('judul_task', $task->judul_task) }}" class="form-control rounded-3" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Deskripsi:</label>
-                <textarea name="deskripsi" class="form-control" required>{{ old('deskripsi', $task->deskripsi) }}</textarea>
+                <label class="form-label fw-semibold">Deskripsi:</label>
+                <textarea name="deskripsi" class="form-control rounded-3" required>{{ old('deskripsi', $task->deskripsi) }}</textarea>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Diinput Oleh:</label>
-                <select name="dikerjakan_oleh" class="form-select">
+                <label class="form-label fw-semibold">Diinput Oleh:</label>
+                <select name="dikerjakan_oleh" class="form-select rounded-3">
                     <option value="">-- Pilih User --</option>
                     @foreach($users as $user)
                         <option value="{{ $user->id }}" {{ old('dikerjakan_oleh', $task->dikerjakan_oleh) == $user->id ? 'selected' : '' }}>
@@ -42,8 +42,8 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Status:</label>
-                <select name="status" class="form-select">
+                <label class="form-label fw-semibold">Status:</label>
+                <select name="status" class="form-select rounded-3">
                     <option value="Baru" {{ old('status', $task->status) == 'Baru' ? 'selected' : '' }}>Baru</option>
                     <option value="Proses" {{ old('status', $task->status) == 'Proses' ? 'selected' : '' }}>Proses</option>
                     <option value="Pending" {{ old('status', $task->status) == 'Pending' ? 'selected' : '' }}>Pending</option>
@@ -52,16 +52,16 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Tanggal Input:</label>
-                <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', $task->tanggal_mulai ? date('Y-m-d', strtotime($task->tanggal_mulai)) : '') }}" class="form-control">
+                <label class="form-label fw-semibold">Tanggal Input:</label>
+                <input type="date" name="tanggal_mulai" value="{{ old('tanggal_mulai', $task->tanggal_mulai ? date('Y-m-d', strtotime($task->tanggal_mulai)) : '') }}" class="form-control rounded-3">
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Target Selesai:</label>
-                <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai', $task->tanggal_selesai ? date('Y-m-d', strtotime($task->tanggal_selesai)) : '') }}" class="form-control">
+                <label class="form-label fw-semibold">Target Selesai:</label>
+                <input type="date" name="tanggal_selesai" value="{{ old('tanggal_selesai', $task->tanggal_selesai ? date('Y-m-d', strtotime($task->tanggal_selesai)) : '') }}" class="form-control rounded-3">
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Update Task</button>
+            <button type="submit" class="btn btn-primary w-100 rounded-3 fw-semibold">Update Task</button>
         </form>
     </div>
 </div>

@@ -12,6 +12,26 @@
     <i class="fa fa-plus"></i>
 </a>
 
+<div class="row mb-3">
+    <div class="col-md-6">
+        <div class="card border-primary shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="text-primary">Total Tasks</h5>
+                <h3 class="fw-bold">{{ $tasks->count() }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-success shadow-sm">
+            <div class="card-body text-center">
+                <h5 class="text-success">Total Users</h5>
+                <h3 class="fw-bold">{{ $users->count() }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover text-center" style="background-color: #f8f9fa;">
         <thead style="background-color: #007bff; color: white;">

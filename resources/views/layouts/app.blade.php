@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>IT PT.Primanusa Mukti Utama - @yield('title', 'Dashboard')</title>
+    <title>Dashboard | PRIMANUSA MUKTI UTAMA</title>
+    <link rel="icon" href="{{ asset('logoo.png') }}" type="image/png"> <!-- Favicon -->
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -143,7 +144,7 @@
 
 <!-- Footer -->
 <footer class="text-center py-3 mt-4">
-    &copy; 2024 Primanusa Mukti Utama | All Rights Reserved
+    &copy; 2025 Primanusa Mukti Utama | All Rights Reserved
 </footer>
 
 <!-- Bootstrap Bundle dengan Popper JS -->
