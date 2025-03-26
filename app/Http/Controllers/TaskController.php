@@ -15,8 +15,8 @@ class TaskController extends Controller
     {
         $user = Auth::user();
 
-        // Ambil semua tasks
-        $tasks = Task::all();
+        // Ambil semua tasks dengan urutan terbaru di atas
+        $tasks = Task::orderBy('created_at', 'desc')->get();
 
         // Ambil semua pengguna
         $users = User::all();
@@ -41,11 +41,10 @@ class TaskController extends Controller
     }
 
     public function create()
-    {
-        $users = User::where('role', 'user')->get();
-        return view('tasks.create', compact('users'));
-    }
-
+{
+    $user = Auth::user(); // Ambil user yang sedang login
+    return view('tasks.create', compact('user'));
+}
     public function store(Request $request)
     {
         $request->validate([
