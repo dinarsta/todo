@@ -31,14 +31,8 @@
 
             <div class="mb-3">
                 <label class="form-label fw-semibold">Diinput Oleh:</label>
-                <select name="dikerjakan_oleh" class="form-select rounded-3">
-                    <option value="">-- Pilih User --</option>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}" {{ old('dikerjakan_oleh', $task->dikerjakan_oleh) == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <input type="text" class="form-control rounded-3" value="{{ $task->user->name }}" disabled>
+                <input type="hidden" name="dikerjakan_oleh" value="{{ $task->dikerjakan_oleh }}">
             </div>
 
             <div class="mb-3">

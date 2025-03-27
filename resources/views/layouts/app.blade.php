@@ -134,7 +134,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body">
-        <a href="{{ route('dashboard') }}"><i class="fa-solid fa-gauge-high me-2"></i>Dashboard</a>
+        <a href="{{ route('tasks.index') }}"><i class="fa-solid fa-gauge-high me-2"></i>Dashboard</a>
         <a href="{{ route('tasks.index') }}"><i class="fa-solid fa-list-check me-2"></i>Task</a>
         <form action="{{ route('logout') }}" method="POST" class="mt-3">
             @csrf
