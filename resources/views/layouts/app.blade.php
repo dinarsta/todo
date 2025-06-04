@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard | PRIMANUSA MUKTI UTAMA</title>
-    <link rel="icon" href="{{ asset('logoo.png') }}" type="image/png"> <!-- Favicon -->
+    <link rel="icon" href="{{ asset('logoo.png') }}" type="image/png">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome untuk ikon -->
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -26,7 +26,6 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Navbar */
         .navbar {
             background-color: var(--secondary-bg);
             border-bottom: 3px solid var(--accent-color);
@@ -43,13 +42,13 @@
             padding: 10px 14px;
             transition: background 0.3s ease-in-out, transform 0.2s;
         }
+
         .btn-outline-secondary:hover {
             background: var(--accent-color);
             color: #FFF;
             transform: scale(1.08);
         }
 
-        /* Sidebar */
         .sidebar {
             background-color: var(--secondary-bg);
             color: var(--text-color);
@@ -83,7 +82,6 @@
             transform: translateX(5px);
         }
 
-        /* Footer */
         footer {
             background-color: var(--secondary-bg);
             border-top: 3px solid var(--accent-color);
@@ -92,7 +90,6 @@
             color: var(--text-color);
         }
 
-        /* Main Content */
         main {
             padding: 30px;
         }
@@ -113,15 +110,20 @@
         <button class="btn btn-outline-secondary me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar">
             <i class="fa-solid fa-bars"></i>
         </button>
-        <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-            <img src="{{ asset('logoo.png') }}" alt="Logo" width="50" height="50" class="me-2">
-            <span class="fs-5 fw-bold text-uppercase">IT Task</span>
-        </a>
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url('/tasks') }}">
+    <img src="{{ asset('logoo.png') }}" alt="Logo" width="50" height="50" class="me-2">
+    <span class="fs-5 fw-bold text-uppercase">IT Task</span>
+</a>
+
         <span class="ms-auto fw-semibold fs-5">Dashboard</span>
-        <div class="ms-3 d-flex align-items-center">
-            <i class="fa-solid fa-user-circle me-2 fa-lg"></i>
+        <div class="ms-3 d-flex align-items-center gap-3">
+            <i class="fa-solid fa-user-circle fa-lg"></i>
             @auth
                 <span class="fw-semibold">{{ Auth::user()->name }} - {{ Auth::user()->role }}</span>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-danger ms-2">Logout</button>
+                </form>
             @endauth
         </div>
     </div>
@@ -153,7 +155,7 @@
     &copy; 2025 Primanusa Mukti Utama | All Rights Reserved
 </footer>
 
-<!-- Bootstrap Bundle dengan Popper JS -->
+<!-- Bootstrap Bundle JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

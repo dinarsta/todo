@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | PRIMANUSA MUKTI UTAMA</title>
-    <link rel="icon" href="{{ asset('logoo.png') }}" type="image/png"> <!-- Favicon -->
+    <link rel="icon" href="{{ asset('logoo.png') }}" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Background styling */
         body {
             background: url("{{ asset('logoo.png') }}") no-repeat center center fixed;
             background-size: cover;
@@ -20,7 +19,6 @@
             overflow: hidden;
         }
 
-        /* Overlay untuk memperjelas teks */
         body::before {
             content: "";
             position: absolute;
@@ -32,7 +30,6 @@
             backdrop-filter: blur(5px);
         }
 
-        /* Glassmorphism card */
         .login-card {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 16px;
@@ -56,7 +53,6 @@
             color: #fff !important;
         }
 
-        /* Input fields styling */
         .form-control {
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.4);
@@ -68,7 +64,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Button styling */
         .btn-primary {
             background: linear-gradient(135deg, #DC5F00, #b84d00);
             border: none;
@@ -82,7 +77,6 @@
             transform: scale(1.05);
         }
 
-        /* Link styling */
         a {
             color: #ffcc00;
             text-decoration: none;
@@ -103,21 +97,20 @@
         <h3 class="text-dark">Login</h3>
 
         @if ($errors->any())
-        <div class="alert alert-danger">
-            {{ $errors->first() }}
-        </div>
+            <div class="alert alert-danger">
+                {{ $errors->first() }}
+            </div>
         @endif
 
         <form action="{{ route('login.post') }}" method="POST">
             @csrf
             <div class="mb-2 text-start">
-                <label for="email" class="form-label text-white">Email</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="Masukkan email" required>
+                <label for="user_id" class="form-label text-white">ID</label>
+                <input type="text" name="user_id" id="user_id" class="form-control" placeholder="Masukkan ID" required>
             </div>
             <div class="mb-3 text-start">
                 <label for="password" class="form-label text-white">Password</label>
-                <input type="password" name="password" id="password" class="form-control"
-                    placeholder="Masukkan password" required>
+                <input type="password" name="password" id="password" class="form-control" placeholder="Masukkan password" required>
             </div>
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>

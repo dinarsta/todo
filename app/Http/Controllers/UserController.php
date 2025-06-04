@@ -15,21 +15,21 @@ class UserController extends Controller
         return view('auth.login');
     }
 
-    // Proses login
+    // Proses login dengan user_id
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email',
+            'user_id' => 'required|string',
             'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('tasks.index'); // Langsung ke halaman daftar tugas
+            return redirect()->route('tasks.index');
         }
 
         return back()->withErrors([
-            'email' => 'Email atau password salah.',
+            'user_id' => 'ID atau password salah.',
         ]);
     }
 
@@ -43,16 +43,16 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $request->validate([
+            'user_id' => 'required|string|unique:users',
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed'
+            'password' => 'required|min:6|confirmed',
         ]);
 
         User::create([
+            'user_id' => $request->user_id,
             'name' => $request->name,
-            'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user' // Default user biasa
+            'role' => 'user' // Default role
         ]);
 
         return redirect()->route('login')->with('success', 'Akun berhasil dibuat, silakan login');
